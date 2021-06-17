@@ -5,56 +5,69 @@ type Config struct {
 	Datasets []struct {
 		Version string `json:"version"`
 		Data    struct {
-			ID      string      `json:"id"`
-			Label   string      `json:"label"`
-			Color   []int       `json:"color"`
-			Alldata [][]float64 `json:"allData"`
+			ID      string          `json:"id"`
+			Label   string          `json:"label"`
+			Color   []int           `json:"color"`
+			AllData [][]interface{} `json:"allData"`
 			Fields  []struct {
 				Name         string `json:"name"`
 				Type         string `json:"type"`
 				Format       string `json:"format"`
-				Analyzertype string `json:"analyzerType"`
+				AnalyzerType string `json:"analyzerType"`
 			} `json:"fields"`
 		} `json:"data"`
 	} `json:"datasets"`
 	Config struct {
 		Version string `json:"version"`
 		Config  struct {
-			Visstate struct {
+			VisState struct {
 				Filters []interface{} `json:"filters"`
 				Layers  []struct {
 					ID     string `json:"id"`
 					Type   string `json:"type"`
 					Config struct {
-						Dataid  string `json:"dataId"`
-						Label   string `json:"label"`
-						Color   []int  `json:"color"`
-						Columns struct {
-							Lat string `json:"lat"`
-							Lng string `json:"lng"`
-						} `json:"columns"`
-						Isvisible bool `json:"isVisible"`
-						Visconfig struct {
-							Opacity       float64 `json:"opacity"`
-							Worldunitsize int     `json:"worldUnitSize"`
-							Resolution    int     `json:"resolution"`
-							Colorrange    struct {
+						DataID    string            `json:"dataId"`
+						Label     string            `json:"label"`
+						Color     []int             `json:"color"`
+						Columns   map[string]string `json:"columns"`
+						IsVisible bool              `json:"isVisible"`
+						VisConfig struct {
+							Opacity          float64 `json:"opacity"`
+							StrokeOpacity    float64 `json:"strokeOpacity"`
+							Thickness        float64 `json:"thickness"`
+							StrokeColor      []int   `json:"strokeColor"`
+							ColorAggregation string  `json:"colorAggregation"`
+							ColorRange       struct {
 								Name     string   `json:"name"`
 								Type     string   `json:"type"`
 								Category string   `json:"category"`
 								Colors   []string `json:"colors"`
 							} `json:"colorRange"`
-							Coverage            int    `json:"coverage"`
-							Sizerange           []int  `json:"sizeRange"`
-							Percentile          []int  `json:"percentile"`
-							Elevationpercentile []int  `json:"elevationPercentile"`
-							Elevationscale      int    `json:"elevationScale"`
-							Coloraggregation    string `json:"colorAggregation"`
-							Sizeaggregation     string `json:"sizeAggregation"`
-							Enable3D            bool   `json:"enable3d"`
+							StrokeColorRange struct {
+								Name     string   `json:"name"`
+								Type     string   `json:"type"`
+								Category string   `json:"category"`
+								Colors   []string `json:"colors"`
+							} `json:"strokeColorRange"`
+							Radius              int     `json:"radius"`
+							SizeRange           []int   `json:"sizeRange"`
+							SizeAggregation     string  `json:"sizeAggregation"`
+							RadiusRange         []int   `json:"radiusRange"`
+							HeightRange         []int   `json:"heightRange"`
+							FixedRadius         bool    `json:"fixedRadius"`
+							ElevationScale      int     `json:"elevationScale"`
+							ElevationPercentile []int   `json:"elevationPercentile"`
+							Percentile          []int   `json:"percentile"`
+							Coverage            float64 `json:"coverage"`
+							Stroked             bool    `json:"stroked"`
+							Outline             bool    `json:"outline"`
+							Filled              bool    `json:"filled"`
+							Enable3D            bool    `json:"enable3d"`
+							Wireframe           bool    `json:"wireframe"`
+							WorldUnitSize       float64 `json:"worldUnitSize"`
 						} `json:"visConfig"`
 						Hidden    bool `json:"hidden"`
-						Textlabel []struct {
+						TextLabel []struct {
 							Field     interface{} `json:"field"`
 							Color     []int       `json:"color"`
 							Size      int         `json:"size"`
@@ -63,26 +76,28 @@ type Config struct {
 							Alignment string      `json:"alignment"`
 						} `json:"textLabel"`
 					} `json:"config"`
-					Visualchannels struct {
-						Colorfield struct {
-							Name string `json:"name"`
-							Type string `json:"type"`
-						} `json:"colorField"`
-						Colorscale string      `json:"colorScale"`
-						Sizefield  interface{} `json:"sizeField"`
-						Sizescale  string      `json:"sizeScale"`
+					VisualChannels struct {
+						ColorField       interface{} `json:"colorField"`
+						ColorScale       string      `json:"colorScale"`
+						StrokeColorField interface{} `json:"strokeColorField"`
+						StrokeColorScale string      `json:"strokeColorScale"`
+						SizeField        interface{} `json:"sizeField"`
+						SizeScale        string      `json:"sizeScale"`
+						HeightField      interface{} `json:"heightField"`
+						HeightScale      string      `json:"heightScale"`
+						RadiusField      interface{} `json:"radiusField"`
+						RadiusScale      string      `json:"radiusScale"`
+						Thickness        float64     `json:"thickness"`
 					} `json:"visualChannels"`
 				} `json:"layers"`
-				Interactionconfig struct {
+				InteractionConfig struct {
 					Tooltip struct {
-						Fieldstoshow struct {
-							Bhclc0Usg []struct {
-								Name   string      `json:"name"`
-								Format interface{} `json:"format"`
-							} `json:"bhclc0usg"`
+						FieldsToShow map[string][]struct {
+							Name   string      `json:"name"`
+							Format interface{} `json:"format"`
 						} `json:"fieldsToShow"`
-						Comparemode bool   `json:"compareMode"`
-						Comparetype string `json:"compareType"`
+						CompareMode bool   `json:"compareMode"`
+						CompareType string `json:"compareType"`
 						Enabled     bool   `json:"enabled"`
 					} `json:"tooltip"`
 					Brush struct {
@@ -96,27 +111,27 @@ type Config struct {
 						Enabled bool `json:"enabled"`
 					} `json:"coordinate"`
 				} `json:"interactionConfig"`
-				Layerblending   string        `json:"layerBlending"`
-				Splitmaps       []interface{} `json:"splitMaps"`
-				Animationconfig struct {
-					Currenttime interface{} `json:"currentTime"`
+				LayerBlending   string        `json:"layerBlending"`
+				SplitMaps       []interface{} `json:"splitMaps"`
+				AnimationConfig struct {
+					CurrentTime interface{} `json:"currentTime"`
 					Speed       int         `json:"speed"`
 				} `json:"animationConfig"`
 			} `json:"visState"`
-			Mapstate struct {
-				Bearing    int     `json:"bearing"`
-				Dragrotate bool    `json:"dragRotate"`
+			MapState struct {
+				Bearing    float64 `json:"bearing"`
+				DragRotate bool    `json:"dragRotate"`
 				Latitude   float64 `json:"latitude"`
 				Longitude  float64 `json:"longitude"`
-				Pitch      int     `json:"pitch"`
-				Zoom       int     `json:"zoom"`
-				Issplit    bool    `json:"isSplit"`
+				Pitch      float64 `json:"pitch"`
+				Zoom       float64 `json:"zoom"`
+				IsSplit    bool    `json:"isSplit"`
 			} `json:"mapState"`
-			Mapstyle struct {
-				Styletype      string `json:"styleType"`
-				Toplayergroups struct {
+			MapStyle struct {
+				StyleType      string `json:"styleType"`
+				TopLayerGroups struct {
 				} `json:"topLayerGroups"`
-				Visiblelayergroups struct {
+				VisibleLayerGroups struct {
 					Label          bool `json:"label"`
 					Road           bool `json:"road"`
 					Border         bool `json:"border"`
@@ -125,8 +140,8 @@ type Config struct {
 					Land           bool `json:"land"`
 					ThreeDBuilding bool `json:"3d building"`
 				} `json:"visibleLayerGroups"`
-				Threedbuildingcolor []float64 `json:"threeDBuildingColor"`
-				Mapstyles           struct {
+				ThreeDBuildingColor []float64 `json:"threeDBuildingColor"`
+				MapStyles           struct {
 				} `json:"mapStyles"`
 			} `json:"mapStyle"`
 		} `json:"config"`
