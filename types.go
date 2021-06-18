@@ -2,14 +2,14 @@ package keplergl
 
 // Config is the type that describes Kepler.gl configuration.
 type Config struct {
-	Datasets []struct {
+	Datasets []*struct {
 		Version string `json:"version"`
 		Data    struct {
 			ID      string          `json:"id"`
 			Label   string          `json:"label"`
 			Color   []int           `json:"color"`
 			AllData [][]interface{} `json:"allData"`
-			Fields  []struct {
+			Fields  []*struct {
 				Name         string `json:"name"`
 				Type         string `json:"type"`
 				Format       string `json:"format"`
@@ -17,27 +17,27 @@ type Config struct {
 			} `json:"fields"`
 		} `json:"data"`
 	} `json:"datasets"`
-	Config struct {
+	Config *struct {
 		Version string `json:"version"`
-		Config  struct {
+		Config  *struct {
 			VisState struct {
 				Filters []interface{} `json:"filters"`
-				Layers  []struct {
+				Layers  []*struct {
 					ID     string `json:"id"`
 					Type   string `json:"type"`
-					Config struct {
+					Config *struct {
 						DataID    string            `json:"dataId"`
 						Label     string            `json:"label"`
 						Color     []int             `json:"color"`
 						Columns   map[string]string `json:"columns"`
 						IsVisible bool              `json:"isVisible"`
-						VisConfig struct {
+						VisConfig *struct {
 							Opacity          float64 `json:"opacity"`
 							StrokeOpacity    float64 `json:"strokeOpacity"`
 							Thickness        float64 `json:"thickness"`
 							StrokeColor      []int   `json:"strokeColor"`
 							ColorAggregation string  `json:"colorAggregation"`
-							ColorRange       struct {
+							ColorRange       *struct {
 								Name     string   `json:"name"`
 								Type     string   `json:"type"`
 								Category string   `json:"category"`
@@ -76,7 +76,7 @@ type Config struct {
 							Alignment string      `json:"alignment"`
 						} `json:"textLabel"`
 					} `json:"config"`
-					VisualChannels struct {
+					VisualChannels *struct {
 						ColorField       interface{} `json:"colorField"`
 						ColorScale       string      `json:"colorScale"`
 						StrokeColorField interface{} `json:"strokeColorField"`
@@ -90,7 +90,7 @@ type Config struct {
 						Thickness        float64     `json:"thickness"`
 					} `json:"visualChannels"`
 				} `json:"layers"`
-				InteractionConfig struct {
+				InteractionConfig *struct {
 					Tooltip struct {
 						FieldsToShow map[string][]struct {
 							Name   string      `json:"name"`
@@ -113,12 +113,12 @@ type Config struct {
 				} `json:"interactionConfig"`
 				LayerBlending   string        `json:"layerBlending"`
 				SplitMaps       []interface{} `json:"splitMaps"`
-				AnimationConfig struct {
+				AnimationConfig *struct {
 					CurrentTime interface{} `json:"currentTime"`
 					Speed       int         `json:"speed"`
 				} `json:"animationConfig"`
 			} `json:"visState"`
-			MapState struct {
+			MapState *struct {
 				Bearing    float64 `json:"bearing"`
 				DragRotate bool    `json:"dragRotate"`
 				Latitude   float64 `json:"latitude"`
@@ -127,11 +127,11 @@ type Config struct {
 				Zoom       float64 `json:"zoom"`
 				IsSplit    bool    `json:"isSplit"`
 			} `json:"mapState"`
-			MapStyle struct {
+			MapStyle *struct {
 				StyleType      string `json:"styleType"`
 				TopLayerGroups struct {
 				} `json:"topLayerGroups"`
-				VisibleLayerGroups struct {
+				VisibleLayerGroups *struct {
 					Label          bool `json:"label"`
 					Road           bool `json:"road"`
 					Border         bool `json:"border"`
