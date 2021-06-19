@@ -1,22 +1,5 @@
 package keplergl
 
-// Dataset represents a Kepler.gl data layer
-type Dataset struct {
-	Version string `json:"version"`
-	Data    struct {
-		ID      string          `json:"id"`
-		Label   string          `json:"label"`
-		Color   []int           `json:"color"`
-		AllData [][]interface{} `json:"allData"`
-		Fields  []*struct {
-			Name         string `json:"name"`
-			Type         string `json:"type"`
-			Format       string `json:"format"`
-			AnalyzerType string `json:"analyzerType"`
-		} `json:"fields"`
-	} `json:"data"`
-}
-
 // Config is the type that describes Kepler.gl configuration.
 type Config struct {
 	Datasets []*Dataset `json:"datasets"`
@@ -24,75 +7,8 @@ type Config struct {
 		Version string `json:"version"`
 		Config  *struct {
 			VisState struct {
-				Filters []interface{} `json:"filters"`
-				Layers  []*struct {
-					ID     string `json:"id"`
-					Type   string `json:"type"`
-					Config *struct {
-						DataID    string            `json:"dataId"`
-						Label     string            `json:"label"`
-						Color     []int             `json:"color"`
-						Columns   map[string]string `json:"columns"`
-						IsVisible bool              `json:"isVisible"`
-						VisConfig *struct {
-							Opacity          float64 `json:"opacity"`
-							StrokeOpacity    float64 `json:"strokeOpacity"`
-							Thickness        float64 `json:"thickness"`
-							StrokeColor      []int   `json:"strokeColor"`
-							ColorAggregation string  `json:"colorAggregation"`
-							ColorRange       *struct {
-								Name     string   `json:"name"`
-								Type     string   `json:"type"`
-								Category string   `json:"category"`
-								Colors   []string `json:"colors"`
-							} `json:"colorRange"`
-							StrokeColorRange struct {
-								Name     string   `json:"name"`
-								Type     string   `json:"type"`
-								Category string   `json:"category"`
-								Colors   []string `json:"colors"`
-							} `json:"strokeColorRange"`
-							Radius              int     `json:"radius"`
-							SizeRange           []int   `json:"sizeRange"`
-							SizeAggregation     string  `json:"sizeAggregation"`
-							RadiusRange         []int   `json:"radiusRange"`
-							HeightRange         []int   `json:"heightRange"`
-							FixedRadius         bool    `json:"fixedRadius"`
-							ElevationScale      int     `json:"elevationScale"`
-							ElevationPercentile []int   `json:"elevationPercentile"`
-							Percentile          []int   `json:"percentile"`
-							Coverage            float64 `json:"coverage"`
-							Stroked             bool    `json:"stroked"`
-							Outline             bool    `json:"outline"`
-							Filled              bool    `json:"filled"`
-							Enable3D            bool    `json:"enable3d"`
-							Wireframe           bool    `json:"wireframe"`
-							WorldUnitSize       float64 `json:"worldUnitSize"`
-						} `json:"visConfig"`
-						Hidden    bool `json:"hidden"`
-						TextLabel []struct {
-							Field     interface{} `json:"field"`
-							Color     []int       `json:"color"`
-							Size      int         `json:"size"`
-							Offset    []int       `json:"offset"`
-							Anchor    string      `json:"anchor"`
-							Alignment string      `json:"alignment"`
-						} `json:"textLabel"`
-					} `json:"config"`
-					VisualChannels *struct {
-						ColorField       interface{} `json:"colorField"`
-						ColorScale       string      `json:"colorScale"`
-						StrokeColorField interface{} `json:"strokeColorField"`
-						StrokeColorScale string      `json:"strokeColorScale"`
-						SizeField        interface{} `json:"sizeField"`
-						SizeScale        string      `json:"sizeScale"`
-						HeightField      interface{} `json:"heightField"`
-						HeightScale      string      `json:"heightScale"`
-						RadiusField      interface{} `json:"radiusField"`
-						RadiusScale      string      `json:"radiusScale"`
-						Thickness        float64     `json:"thickness"`
-					} `json:"visualChannels"`
-				} `json:"layers"`
+				Filters           []interface{} `json:"filters"`
+				Layers            []*Layer      `json:"layers"`
 				InteractionConfig *struct {
 					Tooltip struct {
 						FieldsToShow map[string][]struct {
@@ -155,4 +71,91 @@ type Config struct {
 		Title       string `json:"title"`
 		Description string `json:"description"`
 	} `json:"info"`
+}
+
+// Dataset represents a Kepler.gl data layer.
+type Dataset struct {
+	Version string `json:"version"`
+	Data    struct {
+		ID      string          `json:"id"`
+		Label   string          `json:"label"`
+		Color   []int           `json:"color"`
+		AllData [][]interface{} `json:"allData"`
+		Fields  []*struct {
+			Name         string `json:"name"`
+			Type         string `json:"type"`
+			Format       string `json:"format"`
+			AnalyzerType string `json:"analyzerType"`
+		} `json:"fields"`
+	} `json:"data"`
+}
+
+// Layer represents a Kepler.gl layer.
+type Layer struct {
+	ID     string `json:"id"`
+	Type   string `json:"type"`
+	Config *struct {
+		DataID    string            `json:"dataId"`
+		Label     string            `json:"label"`
+		Color     []int             `json:"color"`
+		Columns   map[string]string `json:"columns"`
+		IsVisible bool              `json:"isVisible"`
+		VisConfig *struct {
+			Opacity          float64 `json:"opacity"`
+			StrokeOpacity    float64 `json:"strokeOpacity"`
+			Thickness        float64 `json:"thickness"`
+			StrokeColor      []int   `json:"strokeColor"`
+			ColorAggregation string  `json:"colorAggregation"`
+			ColorRange       *struct {
+				Name     string   `json:"name"`
+				Type     string   `json:"type"`
+				Category string   `json:"category"`
+				Colors   []string `json:"colors"`
+			} `json:"colorRange"`
+			StrokeColorRange struct {
+				Name     string   `json:"name"`
+				Type     string   `json:"type"`
+				Category string   `json:"category"`
+				Colors   []string `json:"colors"`
+			} `json:"strokeColorRange"`
+			Radius              int     `json:"radius"`
+			SizeRange           []int   `json:"sizeRange"`
+			SizeAggregation     string  `json:"sizeAggregation"`
+			RadiusRange         []int   `json:"radiusRange"`
+			HeightRange         []int   `json:"heightRange"`
+			FixedRadius         bool    `json:"fixedRadius"`
+			ElevationScale      int     `json:"elevationScale"`
+			ElevationPercentile []int   `json:"elevationPercentile"`
+			Percentile          []int   `json:"percentile"`
+			Coverage            float64 `json:"coverage"`
+			Stroked             bool    `json:"stroked"`
+			Outline             bool    `json:"outline"`
+			Filled              bool    `json:"filled"`
+			Enable3D            bool    `json:"enable3d"`
+			Wireframe           bool    `json:"wireframe"`
+			WorldUnitSize       float64 `json:"worldUnitSize"`
+		} `json:"visConfig"`
+		Hidden    bool `json:"hidden"`
+		TextLabel []struct {
+			Field     interface{} `json:"field"`
+			Color     []int       `json:"color"`
+			Size      int         `json:"size"`
+			Offset    []int       `json:"offset"`
+			Anchor    string      `json:"anchor"`
+			Alignment string      `json:"alignment"`
+		} `json:"textLabel"`
+	} `json:"config"`
+	VisualChannels *struct {
+		ColorField       interface{} `json:"colorField"`
+		ColorScale       string      `json:"colorScale"`
+		StrokeColorField interface{} `json:"strokeColorField"`
+		StrokeColorScale string      `json:"strokeColorScale"`
+		SizeField        interface{} `json:"sizeField"`
+		SizeScale        string      `json:"sizeScale"`
+		HeightField      interface{} `json:"heightField"`
+		HeightScale      string      `json:"heightScale"`
+		RadiusField      interface{} `json:"radiusField"`
+		RadiusScale      string      `json:"radiusScale"`
+		Thickness        float64     `json:"thickness"`
+	} `json:"visualChannels"`
 }
