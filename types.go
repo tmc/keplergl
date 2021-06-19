@@ -1,23 +1,26 @@
 package keplergl
 
+// Dataset represents a Kepler.gl data layer
+type Dataset struct {
+	Version string `json:"version"`
+	Data    struct {
+		ID      string          `json:"id"`
+		Label   string          `json:"label"`
+		Color   []int           `json:"color"`
+		AllData [][]interface{} `json:"allData"`
+		Fields  []*struct {
+			Name         string `json:"name"`
+			Type         string `json:"type"`
+			Format       string `json:"format"`
+			AnalyzerType string `json:"analyzerType"`
+		} `json:"fields"`
+	} `json:"data"`
+}
+
 // Config is the type that describes Kepler.gl configuration.
 type Config struct {
-	Datasets []*struct {
-		Version string `json:"version"`
-		Data    struct {
-			ID      string          `json:"id"`
-			Label   string          `json:"label"`
-			Color   []int           `json:"color"`
-			AllData [][]interface{} `json:"allData"`
-			Fields  []*struct {
-				Name         string `json:"name"`
-				Type         string `json:"type"`
-				Format       string `json:"format"`
-				AnalyzerType string `json:"analyzerType"`
-			} `json:"fields"`
-		} `json:"data"`
-	} `json:"datasets"`
-	Config *struct {
+	Datasets []*Dataset `json:"datasets"`
+	Config   *struct {
 		Version string `json:"version"`
 		Config  *struct {
 			VisState struct {
